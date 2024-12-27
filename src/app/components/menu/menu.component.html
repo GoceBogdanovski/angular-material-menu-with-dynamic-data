@@ -1,0 +1,27 @@
+@if(isMenuTriggerIcon()){
+<button type="button" mat-icon-button [matMenuTriggerFor]="inPlaceMenu">
+  <mat-icon>menu</mat-icon>
+</button>
+} 
+
+@if(!isMenuTriggerIcon()){
+<button mat-menu-item [matMenuTriggerFor]="inPlaceMenu">
+  {{ triggerName() }}
+</button>
+}
+
+<mat-menu #inPlaceMenu="matMenu">
+  @for (node of data(); track node.id) {
+  <button mat-menu-item>
+    @if(node.children.length){
+    <app-menu
+      [triggerName]="node.name"
+      [triggerId]="node.id"
+      [data]="node.children"
+    ></app-menu>
+    } @else{
+    <button mat-menu-item [routerLink]="node.link">{{ node.name }}</button>
+    }
+  </button>
+  }
+</mat-menu>
